@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashcards - Simple View</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #4e54c8, #8f94fb);
+      margin: 0;
+      padding: 2rem;
+      min-height: 100vh;
+      color: #2d3436;
+    }
+    h1 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .flashcard {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin: 1rem auto;
+      max-width: 700px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+    .question {
+      font-weight: 600;
+    }
+    .tag {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0.3rem;
+    }
+    .answer {
+      display: none;
+      color: #555;
+      margin-top: 0.75rem;
+      border-top: 1px dashed #ccc;
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 Flashcards</h1>
+  <div id="cards-container"></div>
+
+  <script>
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxgnahs-jOxY_0avwDyAlAJoGGY_Cpkwy9bk_RLUUYlwOsbozODgSe1XzsPki0_GST9Vw/exec";
+
+    function loadCards() {
+      fetch(SHEET_URL)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('cards-container');
+          container.innerHTML = '';
+          (data || []).forEach(card => {
+            const div = document.createElement('div');
+            div.className = 'flashcard';
+            div.innerHTML = `
+              <div class="question">${card.question}</div>
+              <div class="tag">${card.tag || ''}</div>
+              <div class="answer">${card.answer}</div>
+            `;
+            div.onclick = () => {
+              const ans = div.querySelector('.answer');
+              ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+            };
+            container.appendChild(div);
+          });
+        });
+    }
+
+    window.onload = loadCards;
+  </script>
+</body>
+</html>
