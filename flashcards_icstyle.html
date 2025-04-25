@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashcards - First Pass</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4e54c8, #8f94fb);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #fff;
+      margin: 2rem 0 1rem;
+    }
+
+    .card-container {
+      width: 90%;
+      max-width: 700px;
+    }
+
+    .flashcard {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .flashcard:hover {
+      transform: translateY(-5px);
+    }
+
+    .question {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+
+    .answer {
+      display: none;
+      font-size: 1rem;
+      color: #34495e;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed #ccc;
+    }
+
+    .show-btn {
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .input-area {
+      background: #f1f2f6;
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 700px;
+      margin-bottom: 3rem;
+    }
+
+    .input-area h2 {
+      margin-top: 0;
+      color: #2d3436;
+    }
+
+    .input-area input,
+    .input-area textarea {
+      width: 100%;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .add-btn {
+      background-color: #00b894;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 First Pass Flashcards</h1>
+  <div class="card-container" id="cards-container">
+    <div class="flashcard">
+      <div class="question">What is the goal of the first pass when reading a paper?</div>
+      <button class="show-btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">To get a very general idea of the paper's structure and importance.</div>
+    </div>
+    <div class="flashcard">
+      <div class="question">What are the main steps in the first pass?</div>
+      <button class="show-btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Read the title, abstract, and introduction; skim headings and math content; read conclusion; scan references.</div>
+    </div>
+    <div class="flashcard">
+      <div class="question">How long should the first pass take?</div>
+      <button class="show-btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">About 5–10 minutes.</div>
+    </div>
+    <div class="flashcard">
+      <div class="question">What is the purpose of skimming references during the first pass?</div>
+      <button class="show-btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">To identify familiar sources and evaluate the scholarly background of the paper.</div>
+    </div>
+    <div class="flashcard">
+      <div class="question">What are the five Cs you should be able to answer after the first pass?</div>
+      <button class="show-btn" onclick="toggleAnswer(this)">Show Answer</button>
+      <div class="answer">Category, Context, Correctness, Contributions, Clarity.</div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <h2>Add a New Flashcard</h2>
+    <label>Question:</label>
+    <input type="text" id="new-question" placeholder="Enter your question" />
+    <label>Answer:</label>
+    <textarea id="new-answer" rows="3" placeholder="Enter the answer"></textarea>
+    <button class="add-btn" onclick="addCard()">Add Flashcard</button>
+  </div>
+
+  <script>
+    function toggleAnswer(button) {
+      const answer = button.nextElementSibling;
+      answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function addCard() {
+      const questionInput = document.getElementById('new-question');
+      const answerInput = document.getElementById('new-answer');
+      const question = questionInput.value.trim();
+      const answer = answerInput.value.trim();
+
+      if (!question || !answer) {
+        alert("Please enter both a question and an answer.");
+        return;
+      }
+
+      const card = document.createElement('div');
+      card.className = 'flashcard';
+      card.innerHTML = `
+        <div class="question">${question}</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show Answer</button>
+        <div class="answer">${answer}</div>
+      `;
+
+      document.getElementById('cards-container').appendChild(card);
+      questionInput.value = '';
+      answerInput.value = '';
+    }
+  </script>
+</body>
+</html>
